@@ -36,3 +36,7 @@ Thumbs.db
 *.apk
 *.aab
 *.ipa
+
+# 部署产物
+deploy/*.tar.gz
+deploy/.env

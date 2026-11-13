@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>母婴亲子 SaaS · 多租户数字化平台</title>
+<meta name="description" content="面向母婴连锁、亲子服务与渠道联盟的多租户 SaaS 平台，覆盖门店运营、会员服务、供应链、渠道分销与数据洞察。" />
+<style>
+  :root {
+    --ink: #24303f;
+    --muted: #6b7789;
+    --line: #e8e2d9;
+    --cream: #fbf7f1;
+    --coral: #e8735a;
+    --coral-deep: #c9553f;
+    --sage: #7d9b83;
+    --sand: #f2e7d8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.65;
+  }
+  .wrap { width: min(1120px, 92vw); margin: 0 auto; }
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(251, 247, 241, .86);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232, 226, 217, .8);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .3px; }
+  .mark {
+    width: 38px; height: 38px; border-radius: 12px;
+    background: linear-gradient(140deg, var(--coral), #f0a07e);
+    display: grid; place-items: center;
+    box-shadow: 0 8px 20px rgba(232, 115, 90, .28);
+  }
+  .mark svg { width: 22px; height: 22px; }
+  .nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--muted); }
+  .nav-links a { color: inherit; text-decoration: none; }
+  .nav-links a:hover { color: var(--coral-deep); }
+  .nav-cta {
+    padding: 10px 20px; border-radius: 999px;
+    background: var(--ink); color: #fff !important; font-size: 14px;
+    text-decoration: none; white-space: nowrap;
+  }
+  .hero { padding: 88px 0 64px; position: relative; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; right: -120px; top: -160px;
+    width: 520px; height: 520px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,115,90,.16), rgba(232,115,90,0) 68%);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; letter-spacing: 1.4px; color: var(--coral-deep);
+    background: #fff; border: 1px solid var(--line);
+    padding: 7px 14px; border-radius: 999px; margin-bottom: 24px;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sage); box-shadow: 0 0 0 4px rgba(125,155,131,.15); }
+  h1 { font-size: clamp(34px, 5.2vw, 60px); line-height: 1.18; letter-spacing: -.5px; max-width: 760px; }
+  h1 em { font-style: normal; color: var(--coral-deep); position: relative; }
+  h1 em::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 4px; height: 10px;
+    background: rgba(232,115,90,.16); z-index: -1; border-radius: 4px;
+  }
+  .hero p { margin-top: 22px; max-width: 640px; color: var(--muted); font-size: 17px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 26px; border-radius: 12px; text-decoration: none;
+    font-size: 15px; font-weight: 600; transition: .18s ease;
+  }
+  .btn-primary { background: var(--coral); color: #fff; box-shadow: 0 12px 26px rgba(232,115,90,.26); }
+  .btn-primary:hover { background: var(--coral-deep); transform: translateY(-2px); }
+  .btn-ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+  .btn-ghost:hover { border-color: var(--coral); color: var(--coral-deep); }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 46px; font-size: 13px; color: var(--muted); }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+  .hero-meta i { width: 6px; height: 6px; border-radius: 50%; background: var(--coral); font-style: normal; }
+
+  section { padding: 64px 0; }
+  .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 34px; }
+  .section-head h2 { font-size: 30px; letter-spacing: -.3px; }
+  .section-head p { color: var(--muted); font-size: 14px; }
+
+  .portals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .portal {
+    position: relative; background: #fff; border: 1px solid var(--line);
+    border-radius: 20px; padding: 34px 32px; text-decoration: none; color: inherit;
+    transition: .2s ease; overflow: hidden;
+  }
+  .portal::after {
+    content: ""; position: absolute; right: -40px; bottom: -60px;
+    width: 150px; height: 150px; border-radius: 50%;
+    background: var(--sand); opacity: .55;
+  }
+  .portal:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(36,48,63,.08); border-color: #ddcfc2; }
+  .portal .icon {
+    width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center;
+    background: #fff1eb; color: var(--coral-deep); margin-bottom: 22px;
+  }
+  .portal .icon svg { width: 26px; height: 26px; }
+  .portal h3 { font-size: 21px; margin-bottom: 8px; }
+  .portal p { color: var(--muted); font-size: 14px; max-width: 360px; }
+  .portal .go { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; font-size: 14px; color: var(--coral-deep); font-weight: 600; }
+  .portal .go svg { width: 16px; height: 16px; }
+
+  .features { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .feature { padding: 28px 24px; border: 1px solid var(--line); border-radius: 16px; background: var(--cream); }
+  .feature .num { font-size: 12px; color: var(--coral-deep); letter-spacing: 1px; margin-bottom: 14px; }
+  .feature h4 { font-size: 17px; margin-bottom: 8px; }
+  .feature p { font-size: 13px; color: var(--muted); }
+
+  .flow { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+  .flow h2 { font-size: 30px; margin-bottom: 18px; }
+  .flow p { color: var(--muted); font-size: 15px; margin-bottom: 14px; }
+  .steps { display: grid; gap: 14px; }
+  .step { display: flex; gap: 16px; align-items: flex-start; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .step b { width: 28px; height: 28px; border-radius: 8px; background: var(--sand); color: var(--coral-deep); display: grid; place-items: center; font-size: 13px; flex: 0 0 auto; }
+  .step span { font-size: 14px; }
+  .step small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+  footer { padding: 40px 0 54px; color: var(--muted); font-size: 13px; }
+  .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; border-top: 1px solid var(--line); padding-top: 26px; }
+
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .portals, .feature-grid, .flow { grid-template-columns: 1fr; }
+    .hero { padding: 60px 0 40px; }
+    .section-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <span class="mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M12 21s-7-4.2-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.8-7 10-7 10z"/></svg>
+      </span>
+      母婴亲子 SaaS
+    </div>
+    <nav class="nav-links">
+      <a href="#portals">系统入口</a>
+      <a href="#features">平台能力</a>
+      <a href="#about">关于平台</a>
+    </nav>
+    <a class="nav-cta" href="https://maternal-child-h5.quantaida.cloud">进入用户端</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow"><span class="dot"></span> 多租户 · 全链路 · 已上线</div>
+      <h1>让每一家母婴门店，<br />拥有<em>自己的数字化底座</em></h1>
+      <p>面向母婴连锁、亲子服务与渠道联盟的多租户 SaaS。门店运营、会员服务、预约核销、供应链、渠道分销与经营洞察，在一个平台上完成。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://maternal-child-h5.quantaida.cloud">
+          进入用户端 H5
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="https://maternal-child-admin.quantaida.cloud">进入运营管理后台</a>
+      </div>
+      <div class="hero-meta">
+        <span><i></i> 租户数据隔离</span>
+        <span><i></i> 门店 / 员工 / 一线多角色</span>
+        <span><i></i> 会员储值积分与卡券</span>
+        <span><i></i> 供应商与渠道结算</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="portals">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2>选择你的入口</h2>
+          <p>按角色进入对应工作台，账号由平台或租户管理员开通。</p>
+        </div>
+      </div>
+      <div class="portals">
+        <a class="portal" href="https://maternal-child-h5.quantaida.cloud">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg>
+          </div>
+          <h3>用户端 H5</h3>
+          <p>会员注册、宝宝档案、服务预约、商品下单、储值积分、卡券与活动报名，微信与浏览器均可访问。</p>
+          <span class="go">打开用户端
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <a class="portal" href="https://maternal-child-admin.quantaida.cloud">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg>
+          </div>
+          <h3>运营管理后台</h3>
+          <p>租户、门店、员工、服务商品、订单、会员、营销、供应链、渠道商、财务对账与系统配置。</p>
+          <span class="go">打开管理后台
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2>一个平台，覆盖经营全链路</h2>
+          <p>从获客到履约，从门店到渠道，让数据在同一套账本里流转。</p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature">
+          <div class="num">01 / 门店</div>
+          <h4>多门店与多角色</h4>
+          <p>租户下多门店、店长/员工/护理师分角色授权，预约、排班、核销、库存一体化。</p>
+        </div>
+        <div class="feature">
+          <div class="num">02 / 会员</div>
+          <h4>会员资产运营</h4>
+          <p>储值、积分、卡券、宝宝档案与成长记录，跨端同源，权益一处配置处处可用。</p>
+        </div>
+        <div class="feature">
+          <div class="num">03 / 供应链</div>
+          <h4>供货与对账</h4>
+          <p>供货单发货、签收入库、资质证照与账期结算，门店与供应商账目清晰可查。</p>
+        </div>
+        <div class="feature">
+          <div class="num">04 / 渠道</div>
+          <h4>渠道分销</h4>
+          <p>报单、授信额度、佣金流水、下级渠道与结算记录，增长来源可追踪、可结算。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap flow">
+      <div>
+        <h2>从开通到营业，只要三步</h2>
+        <p>平台管理员开通租户并分配套餐，租户管理员配置门店与服务，员工与会员即可开始使用。所有业务数据按租户隔离。</p>
+        <p>系统支持 H5、管理后台与独立 App 多端接入，同一会员身份跨端贯通。</p>
+      </div>
+      <div class="steps">
+        <div class="step"><b>1</b><span>开通租户<small>选择套餐，生成租户空间与管理员账号</small></span></div>
+        <div class="step"><b>2</b><span>配置门店与服务<small>门店、员工、服务项目、商品与库存</small></span></div>
+        <div class="step"><b>3</b><span>开始营业<small>预约核销、会员储值、订单履约与对账</small></span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>母婴亲子多租户 SaaS · maternal-child.quantaida.cloud</div>
+    <div>技术支持：quantaida · 数据按租户隔离</div>
+  </div>
+</footer>
+</body>
+</html>

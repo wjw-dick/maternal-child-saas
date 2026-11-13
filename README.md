@@ -2,6 +2,16 @@
 
 面向母婴护理、月子中心、亲子服务连锁的一体化多租户 SaaS 平台。共享数据库 + `tenant_id` 行级隔离，覆盖平台运营端、租户管理后台、PC 品牌官网、微信公众号、小程序/H5、业务一线端、员工端、供应商端、渠道商端、Flutter App 与开放 API。
 
+## 线上环境
+
+| 端 | 地址 |
+| --- | --- |
+| 主站 / 引导页 | https://maternal-child.quantaida.cloud |
+| 用户端 H5 | https://maternal-child-h5.quantaida.cloud |
+| 运营管理后台 | https://maternal-child-admin.quantaida.cloud |
+
+生产部署、目录、数据库与验证记录见 [docs/deployment.md](docs/deployment.md)。
+
 ## 目录结构
 
 ```
