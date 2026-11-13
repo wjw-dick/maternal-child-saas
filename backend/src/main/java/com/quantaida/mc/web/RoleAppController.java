@@ -301,6 +301,20 @@ public class RoleAppController {
                 .eq(BizSupplyItem::getSupplyId, id)));
     }
 
+    @PostMapping("/api/supplier/supply-orders/{id}/ship")
+    public R<BizSupplyOrder> ship(@PathVariable Long id) {
+        BizSupplyOrder order = supplyOrderMapper.selectById(id);
+        if (order == null || !supplier().getId().equals(order.getSupplierId())) {
+            throw new BizException(403, "无权操作该供货单");
+        }
+        if ("SIGNED".equals(order.getStatus())) {
+            throw new BizException(400, "已签收的供货单不能重复发货");
+        }
+        order.setStatus("SHIPPED");
+        supplyOrderMapper.updateById(order);
+        return R.ok(order);
+    }
+
     @PostMapping("/api/supplier/supply-orders/{id}/sign")
     public R<BizSupplyOrder> sign(@PathVariable Long id) {
         BizSupplyOrder order = supplyOrderMapper.selectById(id);

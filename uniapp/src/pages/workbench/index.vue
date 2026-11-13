@@ -52,6 +52,18 @@
           <view class="entry-item" @click="goStaffIncome">收入与工时</view>
           <view class="entry-item" @click="goStaffProfile">消息 / 改密</view>
         </view>
+
+        <view class="card">
+          <view class="section-title">我的排班</view>
+          <view v-for="item in schedules" :key="item.id" class="row" style="padding: 14rpx 0; border-bottom: 1rpx solid #f2f4f8">
+            <view>
+              <view>{{ item.workDate }} · {{ item.timeSlot || '' }}</view>
+              <view class="muted">{{ item.storeName || '门店' }}</view>
+            </view>
+            <text class="tag">{{ item.status || '已排班' }}</text>
+          </view>
+          <view v-if="!schedules.length" class="empty">暂无排班</view>
+        </view>
       </template>
 
       <!-- 供应商端 -->
@@ -65,6 +77,7 @@
             </view>
             <view class="muted">金额 ¥{{ item.totalAmount }} · 预计到货 {{ fmt(item.expectedAt) }}</view>
             <view class="task-actions">
+              <view v-if="item.status === 'PENDING'" class="btn-ghost mini-btn" @click="ship(item)">发货</view>
               <view v-if="item.status !== 'SIGNED'" class="btn-primary mini-btn" @click="sign(item)">确认签收</view>
             </view>
           </view>
@@ -97,6 +110,11 @@
             <view class="stat-value">{{ credit.available || 0 }}</view>
             <view class="muted">可用额度</view>
           </view>
+        </view>
+        <view class="card">
+          <view class="section-title">提交报单</view>
+          <input v-model="reportAmount" class="report-input" type="digit" placeholder="报单金额（元）" />
+          <view class="btn-primary" style="margin-top: 16rpx" @click="submitReport">提交</view>
         </view>
         <view class="card">
           <view class="section-title">报单记录</view>
@@ -194,6 +212,8 @@ const credit = ref({})
 const settlements = ref([])
 const distOrders = ref([])
 const subordinates = ref([])
+const schedules = ref([])
+const reportAmount = ref('')
 
 const role = computed(() => {
   if (user.value.staffId) return 'staff'
@@ -260,6 +280,22 @@ async function sign(item) {
   uni.showToast({ title: '签收成功，库存已入库', icon: 'success' })
   load()
 }
+async function ship(item) {
+  await api.shipSupply(item.id)
+  uni.showToast({ title: '已发货', icon: 'success' })
+  load()
+}
+async function submitReport() {
+  const amount = Number(reportAmount.value)
+  if (!amount || amount <= 0) {
+    uni.showToast({ title: '请输入报单金额', icon: 'none' })
+    return
+  }
+  await api.distributorReport({ amount })
+  uni.showToast({ title: '报单已提交', icon: 'success' })
+  reportAmount.value = ''
+  load()
+}
 
 async function load() {
   if (!logged.value) return
@@ -269,6 +305,7 @@ async function load() {
   if (role.value === 'staff') {
     workbench.value = (await api.workbench()) || {}
     income.value = (await api.staffIncome()) || {}
+    schedules.value = (await api.staffSchedules()) || []
   } else if (role.value === 'supplier') {
     supplyOrders.value = (await api.supplyOrders()) || []
     statements.value = (await api.statements()) || []
@@ -353,5 +390,11 @@ onShow(load)
   padding: 24rpx;
   text-align: center;
   font-size: 26rpx;
+}
+.report-input {
+  border: 1rpx solid #e3e8f0;
+  border-radius: 12rpx;
+  padding: 18rpx 20rpx;
+  font-size: 28rpx;
 }
 </style>
