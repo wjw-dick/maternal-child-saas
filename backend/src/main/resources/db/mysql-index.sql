@@ -1,0 +1,25 @@
+-- 生产 MySQL 复合索引（隔离铁律 1）
+CREATE INDEX idx_member_tenant_created ON biz_member(tenant_id, created_at);
+CREATE INDEX idx_member_tenant_status ON biz_member(tenant_id, status);
+CREATE INDEX idx_member_tenant_unionid ON biz_member(tenant_id, unionid);
+CREATE INDEX idx_baby_tenant_member ON biz_baby(tenant_id, member_id);
+CREATE INDEX idx_store_tenant_status ON biz_store(tenant_id, status);
+CREATE INDEX idx_service_tenant_status ON biz_service(tenant_id, status);
+CREATE INDEX idx_schedule_tenant_date ON biz_schedule(tenant_id, work_date);
+CREATE INDEX idx_product_tenant_status ON biz_product(tenant_id, status);
+CREATE INDEX idx_sku_tenant_product ON biz_sku(tenant_id, product_id);
+CREATE INDEX idx_order_tenant_created ON biz_order(tenant_id, created_at);
+CREATE INDEX idx_order_tenant_status ON biz_order(tenant_id, status);
+CREATE INDEX idx_order_tenant_member ON biz_order(tenant_id, member_id);
+CREATE INDEX idx_appointment_tenant_date ON biz_appointment(tenant_id, appoint_date);
+CREATE INDEX idx_appointment_tenant_status ON biz_appointment(tenant_id, status);
+CREATE INDEX idx_wallet_flow_tenant_member ON biz_wallet_flow(tenant_id, member_id);
+CREATE INDEX idx_points_flow_tenant_member ON biz_points_flow(tenant_id, member_id);
+CREATE INDEX idx_supply_tenant_supplier ON biz_supply_order(tenant_id, supplier_id);
+CREATE INDEX idx_report_tenant_distributor ON biz_distributor_report(tenant_id, distributor_id);
+CREATE INDEX idx_audit_tenant_created ON sys_audit_log(tenant_id, created_at);
+CREATE INDEX idx_audit_platform_tenant ON platform_audit(tenant_id, created_at);
+CREATE INDEX idx_attachment_tenant_biz ON sys_attachment(tenant_id, biz_type, biz_id);
+CREATE INDEX idx_wx_message_tenant_created ON wx_message(tenant_id, created_at);
+CREATE INDEX idx_wx_follower_tenant_subscribed ON wx_follower(tenant_id, subscribed);
+CREATE INDEX idx_bill_tenant_period ON platform_bill(tenant_id, period);

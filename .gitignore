@@ -1,0 +1,38 @@
+# 依赖与构建产物
+node_modules/
+dist/
+build/
+target/
+.gradle/
+.dart_tool/
+.packages
+pubspec.lock.bak
+
+# 运行数据与日志
+data/
+*.log
+*.log.*
+backend/run*.log
+backend/run*.err.log
+uploads/
+storage/
+
+# 本地配置与密钥
+.env
+.env.local
+*.pem
+*.key
+*.p12
+*.jks
+
+# IDE / 系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# 二进制包
+*.jar
+*.apk
+*.aab
+*.ipa

@@ -1,0 +1,31 @@
+[Unit]
+Description=Maternal Child SaaS Backend
+Documentation=file:///www/wwwroot/mc-saas/docs/deploy-baota.md
+After=network.target mysql.service redis.service rabbitmq-server.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www
+Group=www
+WorkingDirectory=/www/wwwroot/mc-saas/backend
+EnvironmentFile=/www/wwwroot/mc-saas/.env
+ExecStart=/usr/bin/java -Xms512m -Xmx1536m -XX:+UseG1GC -XX:MaxGCPauseMillis=200 \
+  -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Shanghai \
+  -jar /www/wwwroot/mc-saas/backend/target/maternal-child-saas.jar \
+  --spring.profiles.active=mysql
+SuccessExitStatus=143
+Restart=always
+RestartSec=5
+LimitNOFILE=65535
+StandardOutput=append:/www/wwwlogs/mc-saas/app.out
+StandardError=append:/www/wwwlogs/mc-saas/app.err
+
+# 基础加固
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/www/wwwroot/mc-saas/backend/data /www/wwwlogs/mc-saas
+
+[Install]
+WantedBy=multi-user.target

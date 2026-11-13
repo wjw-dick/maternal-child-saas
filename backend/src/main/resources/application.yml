@@ -1,0 +1,92 @@
+server:
+  port: ${SERVER_PORT:8080}
+  address: ${SERVER_ADDRESS:0.0.0.0}
+  forward-headers-strategy: framework
+  tomcat:
+    threads:
+      max: 200
+spring:
+  application:
+    name: maternal-child-saas
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:h2}
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd HH:mm:ss
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 3000ms
+  rabbitmq:
+    host: ${RABBIT_HOST:127.0.0.1}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USER:guest}
+    password: ${RABBIT_PASSWORD:guest}
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 20
+        default-requeue-rejected: false
+        retry:
+          enabled: true
+          max-attempts: 3
+          initial-interval: 1000ms
+          multiplier: 2
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false
+    db-config:
+      id-type: assign_id
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:quantaida-maternal-child-saas-jwt-secret-2026-please-change-in-prod}
+    expire-hours: 24
+  crypto:
+    key: ${APP_CRYPTO_KEY:quantaida-aes-key-32-bytes-please-change}
+  storage:
+    local-root: ${STORAGE_ROOT:./data/storage}
+    public-prefix: /files
+  tenant:
+    default-code: demo
+    trial-days: 14
+  sso:
+    # 仅本地沙箱允许 mock；生产必须为 false 并接入 IdP 适配器
+    mock: ${SSO_MOCK:false}
+  cors:
+    allowed-origins: "*"
+  redis:
+    # 本地演示默认关闭，生产环境置为 true 启用分布式限流/防重/编号/锁
+    enabled: ${REDIS_ENABLED:false}
+  mq:
+    # 本地演示默认关闭，生产环境置为 true 启用 RabbitMQ 异步事件
+    enabled: ${MQ_ENABLED:false}
+    exchange: ${MQ_EXCHANGE:mc.topic}
+  job:
+    # 租户分片定时任务默认关闭，生产环境置为 true
+    enabled: ${JOB_ENABLED:false}
+    cron: ${JOB_CRON:0 0 3 * * ?}
+
+logging:
+  level:
+    com.quantaida.mc: info
+  file:
+    name: ./logs/app.log
+  logback:
+    rollingpolicy:
+      max-file-size: 50MB
+      max-history: 30
