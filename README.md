@@ -9,6 +9,7 @@
 | 主站 / 引导页 | https://maternal-child.quantaida.cloud |
 | 用户端 H5 | https://maternal-child-h5.quantaida.cloud |
 | 运营管理后台 | https://maternal-child-admin.quantaida.cloud |
+| 品牌官网 Portal | https://maternal-child-portal.quantaida.cloud |
 
 生产部署、目录、数据库与验证记录见 [docs/deployment.md](docs/deployment.md)。
 

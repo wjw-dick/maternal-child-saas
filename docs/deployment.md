@@ -7,6 +7,7 @@
 | 主站 / 引导页 | https://maternal-child.quantaida.cloud | 引导页 + `/api/`、`/files/` 反代 |
 | 用户端 H5 | https://maternal-child-h5.quantaida.cloud | uni-app H5 构建产物 |
 | 运营管理后台 | https://maternal-child-admin.quantaida.cloud | Vue3 + Vite 构建产物 |
+| 品牌官网 Portal | https://maternal-child-portal.quantaida.cloud | `site/` Vue3 品牌官网（双语 / SEO） |
 
 ## 2. 服务器与目录
 
@@ -14,6 +15,7 @@
 - 主站目录：`/www/wwwroot/maternal-child.quantaida.cloud`
 - H5 目录：`/www/wwwroot/maternal-child-h5.quantaida.cloud`
 - 后台目录：`/www/wwwroot/maternal-child-admin.quantaida.cloud`
+- 官网目录：`/www/wwwroot/maternal-child-portal.quantaida.cloud`
 - 后端目录：`/home/app/maternal-child.quantaida.cloud`（`app.jar`、`.env`、`service.sh`、`logs/`、`data/storage/`）
 - 后端端口：`18081`
 - JDK：`/www/server/java/jdk-17.0.8`
@@ -53,6 +55,7 @@ cd /home/app/maternal-child.quantaida.cloud
 
 - 配置文件：`/www/server/panel/vhost/nginx/maternal-child*.quantaida.cloud.conf`
 - 三个站点均为自包含配置，监听 80/443，`/api/` 与 `/files/` 反代 `127.0.0.1:18081`
+- Portal 构建时注入 `VITE_TENANT_CODE=demo`，否则公开接口缺少 `X-Tenant-Code`，服务/门店列表为空
 - SSL 使用 `*.quantaida.cloud` 通配符证书（复制到各站点 cert 目录），TLS 1.2/1.3
 - 仓库内配置样例：`deploy/nginx/`
 
@@ -66,6 +69,7 @@ cd /home/app/maternal-child.quantaida.cloud
 | 主站 | HTTP/HTTPS 200，返回引导页标题“母婴亲子 SaaS · 多租户数字化平台” |
 | H5 | 200，`nurse/admin123` 登录进入“一线服务工作台”，今日预约 1、排班 `2026-11-13` |
 | 管理后台 | 200，`demo/admin/admin123` 登录进入经营工作台，家庭会员 2、今日预约 1、累计实收 127.00 |
+| 品牌官网 | 200，首页、服务 3 条、门店 2 家正常加载，独立 `-portal` 站点与 API 反代通过 |
 | 公网 API | `https://maternal-child.quantaida.cloud/api/tenant/auth/login` 200 |
 | 开机自启 | `systemctl is-enabled maternal-child` = enabled |
 
